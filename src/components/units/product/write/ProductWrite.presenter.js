@@ -1,18 +1,23 @@
+import { Button, Input } from "./ProductWrite.emotions";
+
 export default function ProductWritePresenter(props) {
+  console.log(props.boolButton);
   return (
     <>
       seller :{" "}
-      <input type={"text"} name="seller" onChange={props.handleChange} />
+      <Input type={"text"} name="seller" onChange={props.handleChange} />
       <br />
-      name : <input type={"text"} name="name" onChange={props.handleChange} />
+      name : <Input type={"text"} name="name" onChange={props.handleChange} />
       <br />
       detail :{" "}
-      <input type={"text"} name="detail" onChange={props.handleChange} />
+      <Input type={"text"} name="detail" onChange={props.handleChange} />
       <br />
       price :{" "}
-      <input type={"number"} name="price" onChange={props.handleChange} />
+      <Input type={"number"} name="price" onChange={props.handleChange} />
       <br />
-      <button onClick={props.handleClick}>제출</button>
+      <Button boolButton={props.boolButton} onClick={props.handleClick}>
+        제출
+      </Button>
     </>
   );
 }
