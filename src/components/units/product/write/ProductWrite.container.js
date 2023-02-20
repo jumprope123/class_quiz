@@ -2,11 +2,12 @@ import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ProductWritePresenter from "./ProductWrite.presenter";
-import { CREATE_PRODUCT_INPUT } from "./ProductWrite.queries";
+import { CREATE_PRODUCT_INPUT, UPDATE_PRODUCT_INPUT } from "./ProductWrite.queries";
 
-export default function ProductWriteContainer() {
+export default function ProductWriteContainer(props) {
   const [data, setData] = useState({});
   const [createProduct] = useMutation(CREATE_PRODUCT_INPUT);
+  const [updateProduct] = useMutation(UPDATE_PRODUCT_INPUT);
   const [boolButton, setBoolButton] = useState(false);
 
   const router = useRouter();
@@ -40,17 +41,30 @@ export default function ProductWriteContainer() {
         },
       });
 
-      router.push(`/05/boards/${result.data.createProduct._id}`);
+      router.push(`/08/boards/${result.data.createProduct._id}`);
     } catch (err) {
       console.log(err);
     }
   };
 
-  return (
-    <ProductWritePresenter
-      handleChange={handleChange}
-      handleClick={handleClick}
-      boolButton={boolButton}
-    />
-  );
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await updateProduct({
+        variables: {
+          productId: router.query.productId,
+          updateProductInput: {
+            name: data?.name,
+            detail: data?.detail,
+            price: Number(data?.price),
+          },
+        },
+      });
+      router.push(`/08/boards/${result.data.updateProduct._id}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return <ProductWritePresenter handleChange={handleChange} handleClick={handleClick} handleUpdate={handleUpdate} boolButton={boolButton} isEdit={props.isEdit} />;
 }
