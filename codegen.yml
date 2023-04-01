@@ -1,0 +1,8 @@
+#prettier-ignore
+schema: http://practice.codebootcamp.co.kr/graphql
+generates:
+  ./src/commons/types/generated/types.ts:
+    plugins:
+      - typescript
+    config:
+      typesPrefix: I
